@@ -29,11 +29,38 @@ class Passaro:
         self.posicaoX = posicaoX
         self.posicaoY = posicaoY
         self.angulo = 0
-        self.velocaidade = 0
+        self.velocidade = 0
         self.altura = self.posicaoY
         self.tempo = 0 #tempo para determinar ações
         self.contagem_imagem = 0 #saber qual imagem esta sendo usada
-        # self.imagemPadrao = IMGS[0]
+        self.imagemPadrao = IMGS[0]
+
+    def pular(self):
+        self.velocidade = -10.5
+        self.tempo = 0
+        self.altura = self.posicaoY
+
+    def mover(self):
+        # calcular deslocamento
+        self.tempo += 1
+        deslocamento = 1.5 * (self.tempo**2) + self.velocidade * self.tempo
+
+        # restringir o deslocamento
+        if deslocamento > 16:
+            deslocamento = 16
+        elif deslocamento < 0:
+            deslocamento -= 2
+
+        self.posicaoY += deslocamento
+ 
+        # o angulo do passado
+        if deslocamento < 0 or self.posicaoY < (self.altura + 50): # Verificando posicao
+            if self.angulo < self.ROTACAO_MAXIMA:
+                self.angulo = self.ROTACAO_MAXIMA
+        else:
+            if self.angulo > -90:
+                self.angulo -= self.VELOCIDADE_ROTACAO
+                
 
 class Cano:
     pass
